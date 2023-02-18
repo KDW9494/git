@@ -1,6 +1,6 @@
 import Header from './header.js';
 import Main from './main.js';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 function Article(props){
   return(
     <div>{props.id}입니다.</div>
@@ -10,21 +10,31 @@ function Article(props){
 // 래퍼
 function App() {
   let content;
+  useEffect(() => {
+    fetch('http://localhost:8000/')
+    .then(res => {
+      return res.json()
+    })
+    .then(data =>{
+      setCates(data);
+    })
+  }, []);
   const [mode, setMode] = useState(1);
-  const cates = [
-  {
-    id: 1,
-    cate: '회사소개'
-  },
-  {
-    id: 2,
-    cate: '카테2'
-  },
-  {
-    id: 3,
-    cate: '카테3'
-  }
-  ]
+  const [cates, setCates] = useState([]);
+  // const cates = [
+  // {
+  //   id: 1,
+  //   cate: '회사소개'
+  // },
+  // {
+  //   id: 2,
+  //   cate: '카테2'
+  // },
+  // {
+  //   id: 3,
+  //   cate: '카테3'
+  // }
+  // ]
   
   
   if(mode === 1){
@@ -38,9 +48,9 @@ function App() {
     <div className="App" data-is='dsd'>
       <Header cates={cates} onChangeMode={id=>{
         
-        document.querySelector(".App").setAttribute("data-is","dsdsds");
+        // document.querySelector(".App").setAttribute("data-is","dsdsds");
         // let yes = document.querySelector(".App").getAttribute("data-is");
-        document.querySelector(".App").classList.toggle("active");
+        // document.querySelector(".App").classList.toggle("active");
         setMode(id);
         // alert(yes);
       }}></Header>
